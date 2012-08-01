@@ -1,49 +1,60 @@
 package cz.thc.eurosignal.services;
 
-import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.entity.StringEntity;
-import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import cz.thc.eurosignal.model.Model;
 
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
-import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
 import android.os.IBinder;
 import android.util.Log;
+import cz.thc.eurosignal.model.Model;
 
 public class LocationUpdateService extends Service {
-//	private Handler mHandler = new Handler();
-//	public static final int DELAY = 1000;
+	//	private Handler mHandler = new Handler();
+	//	public static final int DELAY = 1000;
 	public static final String BROADCAST_ACTION = "cz.sw.android.services.broadcastaction";
-	
-//	private Runnable periodicTask = new Runnable() {
-//		public void run() {
-//			mHandler.postDelayed(periodicTask, DELAY);
-//			Intent intent = new Intent(BROADCAST_ACTION);
-//			sendBroadcast(intent);
-//		}
-//	};
+
+	private static final String TAG = "BOOMBOOMTESTGPS";
+	private static final int LOCATION_INTERVAL = 30000;
+	private static final float LOCATION_DISTANCE = 0f;
+
+	//	private Runnable periodicTask = new Runnable() {
+	//		public void run() {
+	//			mHandler.postDelayed(periodicTask, DELAY);
+	//			Intent intent = new Intent(BROADCAST_ACTION);
+	//			sendBroadcast(intent);
+	//		}
+	//	};
 
 	@Override
 	public IBinder onBind(Intent intent) {
 		return null;
 	}
+	
+	@Override
+	public int onStartCommand(Intent intent, int flags, int startId)
+	{
+	    Log.e(TAG, "onStartCommand");
+	    super.onStartCommand(intent, flags, startId);       
+	    return START_STICKY;
+	}
+
+	private void initializeLocationManager() {
+		Log.e(TAG, "initializeLocationManager");
+		if (locationManager == null) {
+			locationManager = (LocationManager) getApplicationContext().getSystemService(Context.LOCATION_SERVICE);
+		}
+	}
 
 	@Override
 	public void onCreate() {
-		locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
+		initializeLocationManager();
 		Intent intent = new Intent(BROADCAST_ACTION);
 		sendBroadcast(intent);
 		startListener();
@@ -56,7 +67,7 @@ public class LocationUpdateService extends Service {
 		sendBroadcast(intent);
 		stopListener();
 	}
-	
+
 	private LocationManager locationManager;
 	private LocationListener locationListener;
 
@@ -64,7 +75,7 @@ public class LocationUpdateService extends Service {
 	private Double lng;
 	private Float acc;
 
-	
+
 	private class LocationPostTask extends AsyncTask<String, Void, String> {
 		@Override
 		protected String doInBackground(String... str) {
@@ -101,11 +112,6 @@ public class LocationUpdateService extends Service {
 				Log.e("acc",""+acc);
 
 				new LocationPostTask().execute(lat.toString(),lng.toString(),acc.toString());
-
-				//				if (acc<100) {
-				//					Log.e("loc good enough",""+acc);
-				//					stopListener();
-				//				}
 			}
 
 			public void onStatusChanged(String provider, int status, Bundle extras) {
@@ -121,24 +127,26 @@ public class LocationUpdateService extends Service {
 				Log.e("loc disable",provider);
 			}
 		};
-
-		// Register the listener with the Location Manager to receive location updates
-//		Criteria criteria = new Criteria();
-//		criteria.setAccuracy(Criteria.ACCURACY_FINE);
-//		criteria.setAltitudeRequired(false);
-//		criteria.setBearingRequired(false);
-//		criteria.setSpeedRequired(false);
-		//		criteria.setHorizontalAccuracy(Criteria.ACCURACY_MEDIUM);
-		//		criteria.setVerticalAccuracy(Criteria.ACCURACY_MEDIUM);
-//		locationManager.requestLocationUpdates(30000,10.0f,criteria,locationListener,null);
-		locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,30000,10.0f,locationListener);
-//		locationManager.requestLocationUpdates(10000,0.f,criteria,locationListener,null);
+		try{
+			locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,LOCATION_INTERVAL,LOCATION_DISTANCE,locationListener);
+		} catch (java.lang.SecurityException ex) {
+			Log.i(TAG, "fail to request location update, ignore", ex);
+		} catch (IllegalArgumentException ex) {
+			Log.d(TAG, "gps provider does not exist " + ex.getMessage());
+		}
 	}
 
 	public void stopListener(){
 		Log.e("listener stop","goodbye");
-		locationManager.removeUpdates(locationListener);
+		if (locationManager!=null){
+			try {
+				locationManager.removeUpdates(locationListener);
+			} catch (Exception ex) {
+				Log.i(TAG, "fail to remove location listners, ignore", ex);
+			}
+		}
+
 	}
-	
-	
 }
+
+
