@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TabHost xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@android:id/tabhost"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" >
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:orientation="vertical" >
+
+        <FrameLayout
+            android:id="@android:id/tabcontent"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_weight="1" >
+
+            <LinearLayout
+                android:id="@+id/account"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:orientation="vertical" >
+
+                <LinearLayout
+                    android:id="@+id/loginBox"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10sp"
+                    android:orientation="vertical" >
+
+                    <TextView
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Username" />
+
+                    <EditText
+                        android:id="@+id/usernameField"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:ems="10"
+                        android:text="tom" >
+
+                        <requestFocus />
+                    </EditText>
+
+                    <TextView
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Password" />
+
+                    <EditText
+                        android:id="@+id/passwordField"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:ems="10"
+                        android:inputType="textPassword"
+                        android:text="asdf" />
+
+                    <Button
+                        android:id="@+id/loginButton"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="15sp"
+                        android:onClick="onLoginClick"
+                        android:text="Log In"
+                        android:textSize="20sp" />
+
+                    <TextView
+                        android:id="@+id/loginStatusView"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="15sp"
+                        android:text="Login error"
+                        android:textColor="@color/Red"
+                        android:textSize="20sp"
+                        android:visibility="gone" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/trackingBox"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10sp"
+                    android:orientation="vertical"
+                    android:paddingTop="5sp"
+                    android:visibility="gone" >
+
+                    <Button
+                        android:id="@+id/startTrackingButton"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:onClick="onStartTracking"
+                        android:text="Start tracking"
+                        android:textSize="20sp" />
+
+                    <Button
+                        android:id="@+id/stopTrackingButton"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:onClick="onStopTracking"
+                        android:text="Stop tracking"
+                        android:textSize="20sp"
+                        android:visibility="gone" />
+
+                    <Button
+                        android:id="@+id/logoutButton"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="15sp"
+                        android:onClick="onLogoutClick"
+                        android:text="Log Out"
+                        android:textSize="20sp" />
+                </LinearLayout>
+            </LinearLayout>
+
+             <ListView
+                android:id="@+id/taskList"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:padding="3dip" >
+            </ListView>
+        </FrameLayout>
+
+        <TabWidget
+            android:id="@android:id/tabs"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="-4dp"
+            android:layout_weight="0"
+            android:tabStripEnabled="false" />
+        <!-- android:layout_marginBottom="-4dp" -->
+    </LinearLayout>
+
+</TabHost>
