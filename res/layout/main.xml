@@ -17,67 +17,6 @@
 
             <LinearLayout
                 android:id="@+id/account"
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:orientation="vertical" >
-
-                <LinearLayout
-                    android:id="@+id/loginBox"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="10sp"
-                    android:orientation="vertical" >
-
-                    <TextView
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Username" />
-
-                    <EditText
-                        android:id="@+id/usernameField"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:ems="10"
-                        android:text="tom" >
-
-                        <requestFocus />
-                    </EditText>
-
-                    <TextView
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Password" />
-
-                    <EditText
-                        android:id="@+id/passwordField"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:ems="10"
-                        android:inputType="textPassword"
-                        android:text="asdf" />
-
-                    <Button
-                        android:id="@+id/loginButton"
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="15sp"
-                        android:onClick="onLoginClick"
-                        android:text="Log In"
-                        android:textSize="20sp" />
-
-                    <TextView
-                        android:id="@+id/loginStatusView"
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="15sp"
-                        android:text="Login error"
-                        android:textColor="@color/Red"
-                        android:textSize="20sp"
-                        android:visibility="gone" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/trackingBox"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="10sp"
@@ -91,7 +30,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
                         android:onClick="onStartTracking"
-                        android:text="Start tracking"
+                        android:text="@string/start_tracking"
                         android:textSize="20sp" />
 
                     <Button
@@ -99,7 +38,7 @@
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:onClick="onStopTracking"
-                        android:text="Stop tracking"
+                        android:text="@string/stop_tracking"
                         android:textSize="20sp"
                         android:visibility="gone" />
 
@@ -109,9 +48,8 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="15sp"
                         android:onClick="onLogoutClick"
-                        android:text="Log Out"
+                        android:text="@string/logout"
                         android:textSize="20sp" />
-                </LinearLayout>
             </LinearLayout>
 
              <ListView
